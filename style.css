@@ -1,0 +1,197 @@
+/* 全局設定 */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9; /* 柔和的灰白色背景 */
+  font-family: "Microsoft JhengHei", "Heiti TC", sans-serif; /* 設定中文字體 */
+  overflow: hidden; /* 防止整個網頁出現捲軸，交由內部區塊捲動 */
+  height: 100vh; /* 佔滿整個視窗高度 */
+}
+
+/* 按鈕美化 */
+button {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 20px; /* 圓角化關鍵 */
+  color: #444;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+  padding: 0 10px; /* 左右內距 */
+  transition: all 0.2s ease; /* 平滑過渡動畫 */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* 輕微陰影增加立體感 */
+  outline: none;
+  box-sizing: border-box; /* 確保 padding 不會撐大按鈕尺寸 */
+}
+
+/* 按鈕懸停效果 (滑鼠移上去時) */
+button:hover {
+  transform: translateY(-2px); /* 微微上浮 */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* 陰影加深 */
+  border-color: #ccc;
+}
+
+/* 按鈕點擊效果 */
+button:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+/* 搜尋框美化 */
+input {
+  border: 1px solid #ccc;
+  border-radius: 20px; /* 圓角搜尋框 */
+  padding: 8px 15px;
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); /* 內部陰影 */
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* 搜尋框聚焦效果 */
+input:focus {
+  border-color: #87CEEB; /* 天藍色邊框 */
+  box-shadow: 0 0 0 3px rgba(135, 206, 235, 0.2); /* 發光效果 */
+}
+
+/* 結果區域容器 */
+.results-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  /* 高度與位置會在 JS 中動態設定 */
+}
+
+/* 左右欄位 */
+.result-column {
+  flex: 1; /* 左右平分寬度 */
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 15px;
+  padding: 15px;
+  overflow-y: auto; /* 內容過多時顯示捲動條 */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  height: 100%; /* 填滿容器高度 */
+  box-sizing: border-box;
+}
+
+.result-column h3 {
+  margin-top: 0;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 10px;
+  color: #444;
+  font-size: 18px;
+}
+
+/* 食譜項目 */
+.recipe-item {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.recipe-name {
+  font-weight: bold;
+  color: #006400;
+  margin: 0 10px;
+}
+
+.recipe-details {
+  font-size: 0.85em;
+  color: #888;
+  width: 100%;
+  margin-left: 28px; /* 對齊文字 */
+}
+
+/* --- 新增排版樣式 --- */
+
+/* 主版面容器 */
+.main-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* 佔滿視窗高度 */
+}
+
+/* 上半部與下半部共用樣式 */
+.panel {
+  flex: 1; /* 上下各佔 50% */
+  overflow-y: auto; /* 內容過多時顯示垂直捲動條 */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.top-panel {
+  background-color: #f9f9f9;
+  border-bottom: 4px solid #e0e0e0; /* 分隔線 */
+}
+
+.bottom-panel {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column; /* 讓標題與結果列表垂直排列 */
+  overflow-y: hidden; /* 確保只有內部列表捲動，標題固定 */
+}
+
+/* 控制項列 (搜尋框、按鈕等) */
+.controls-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+/* 食材按鈕網格容器 */
+.ingredients-grid {
+  display: flex;
+  flex-wrap: wrap; /* 自動換行 */
+  gap: 8px;
+}
+
+/* 調整結果容器以填滿下半部剩餘空間 */
+.results-container {
+  flex: 1;
+  min-height: 0; /* 修正 Flexbox 巢狀捲動問題 */
+}
+
+/* --- 手機版響應式設定 (Media Query) --- */
+@media (max-width: 768px) {
+  /* 1. 讓結果列表改為上下堆疊 (原本是左右並排) */
+  .results-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* 2. 調整字體大小與觸控區域，方便手指點擊 */
+  body {
+    font-size: 16px; /* 提升基礎字體大小 */
+  }
+
+  button {
+    padding: 10px 15px; /* 增加按鈕點擊範圍 */
+    font-size: 15px;
+  }
+
+  /* 防止 iOS Safari 在輸入框 focus 時自動放大頁面 (需 >= 16px) */
+  input {
+    font-size: 16px;
+    padding: 10px;
+  }
+
+  /* 3. 減少手機版邊距以爭取更多顯示空間 */
+  .panel {
+    padding: 10px;
+  }
+
+  .bottom-panel {
+    overflow-y: auto; /* 手機版恢復整體捲動 */
+  }
+
+  .result-column {
+    height: auto; /* 手機版高度自動撐開 */
+    overflow-y: visible; /* 取消內部捲動 */
+  }
+}
