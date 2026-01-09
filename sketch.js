@@ -27,7 +27,7 @@ let recCatButtons = []; // 食譜分類按鈕陣列
 let resetChecksBtn; // 重置勾選按鈕
 
 const ingCategories = ['全部', '肉類', '菜類', '穀物', '其他'];
-const recCategories = ['全部', '肉菜', '素菜', '甜品', '酒'];
+const recCategories = ['全部', '肉菜', '素菜', '甜品', '酒類'];
 
 function setup() {
   noCanvas(); // 不再需要 Canvas，改用 HTML 排版
@@ -41,7 +41,7 @@ function setup() {
   for (let r = 0; r < ingredientsTable.getRowCount(); r++) {
     let row = ingredientsTable.getRow(r);
     let name = row.getString('name');
-    let category = row.getString('category');
+    let category = row.getString('category').trim(); // 去除可能存在的空白或換行符號
     ingredients.push(name);
     ingTypeMap[name] = category;
   }
@@ -52,7 +52,7 @@ function setup() {
     recipes.push({
       name: row.getString('name'),
       required: row.getString('required').split(';'), // 使用分號分割食材
-      category: row.getString('category'),
+      category: row.getString('category').trim(), // 去除可能存在的空白或換行符號
       checked: false // 新增勾選狀態
     });
   }
